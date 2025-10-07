@@ -1,0 +1,190 @@
+[gd_scene load_steps=24 format=3 uid="uid://cvr2tithgu0ge"]
+
+[ext_resource type="Script" uid="uid://c8nmw1jio27ho" path="res://Entities/Bat/bat.gd" id="1_md0e3"]
+[ext_resource type="Texture2D" uid="uid://catry0kst2q6b" path="res://assets/Bat_Sprite_Sheet.png" id="2_md0e3"]
+[ext_resource type="Script" uid="uid://derfbmyymxqsn" path="res://Common/Hitpoints/HitBox.gd" id="3_4ra3w"]
+[ext_resource type="Script" uid="uid://bola3vgr3ssjs" path="res://Common/Hitpoints/HealthTracker.gd" id="4_c4w8v"]
+[ext_resource type="Script" uid="uid://bds042apw8aqt" path="res://Common/Hitpoints/HurtBox.gd" id="5_xwavj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_md0e3"]
+size = Vector2(984, 164)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_md0e3"]
+radius = 32.0
+height = 66.0
+
+[sub_resource type="Animation" id="Animation_4ra3w"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_5uy6h"]
+resource_name = "damage"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [5, 9]
+}
+
+[sub_resource type="Animation" id="Animation_c4w8v"]
+resource_name = "death"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [10, 14]
+}
+
+[sub_resource type="Animation" id="Animation_md0e3"]
+resource_name = "idle"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0, 4]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xwavj"]
+_data = {
+&"RESET": SubResource("Animation_4ra3w"),
+&"attack": SubResource("Animation_5uy6h"),
+&"death": SubResource("Animation_c4w8v"),
+&"idle": SubResource("Animation_md0e3")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_md0e3"]
+animation = &"attack"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_md484"]
+animation = &"death"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ipns3"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_8qclf"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_w8i8w"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_4ra3w"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_5uy6h"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_w36fc"]
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_j0cyh"]
+states/attack/node = SubResource("AnimationNodeAnimation_md0e3")
+states/attack/position = Vector2(533, 63)
+states/death/node = SubResource("AnimationNodeAnimation_md484")
+states/death/position = Vector2(583, 245)
+states/idle/node = SubResource("AnimationNodeAnimation_ipns3")
+states/idle/position = Vector2(455, 169)
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_8qclf"), "idle", "death", SubResource("AnimationNodeStateMachineTransition_w8i8w"), "idle", "attack", SubResource("AnimationNodeStateMachineTransition_4ra3w"), "attack", "idle", SubResource("AnimationNodeStateMachineTransition_5uy6h"), "attack", "death", SubResource("AnimationNodeStateMachineTransition_w36fc")]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4ra3w"]
+size = Vector2(64, 164)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3hta0"]
+radius = 44.0
+height = 138.0
+
+[node name="Bat" type="CharacterBody2D" groups=["enemies"]]
+script = ExtResource("1_md0e3")
+
+[node name="ChaseRadius" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ChaseRadius"]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_md0e3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -28)
+shape = SubResource("CapsuleShape2D_md0e3")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_xwavj")
+}
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(1.4210855e-14, 2.2737368e-13)
+scale = Vector2(5, 5)
+texture = ExtResource("2_md0e3")
+flip_h = true
+hframes = 5
+vframes = 3
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeStateMachine_j0cyh")
+anim_player = NodePath("../AnimationPlayer")
+
+[node name="HitBox" type="Area2D" parent="."]
+script = ExtResource("3_4ra3w")
+metadata/_custom_type_script = "uid://derfbmyymxqsn"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+position = Vector2(-39, 1)
+shape = SubResource("RectangleShape2D_4ra3w")
+
+[node name="AttackTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="HealthTracker" type="Node" parent="."]
+script = ExtResource("4_c4w8v")
+max_hitpoints = 5
+metadata/_custom_type_script = "uid://bola3vgr3ssjs"
+
+[node name="Hurtbox" type="Area2D" parent="." node_paths=PackedStringArray("health_tracker")]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("5_xwavj")
+health_tracker = NodePath("../HealthTracker")
+metadata/_custom_type_script = "uid://bds042apw8aqt"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(-1, 1)
+shape = SubResource("CapsuleShape2D_3hta0")
+
+[connection signal="body_entered" from="ChaseRadius" to="." method="_on_chase_radius_body_entered"]
+[connection signal="body_exited" from="ChaseRadius" to="." method="_on_chase_radius_body_exited"]
+[connection signal="animation_finished" from="AnimationTree" to="." method="_on_animation_tree_animation_finished"]
+[connection signal="attack_started" from="HitBox" to="." method="_on_hit_box_attack_started"]
+[connection signal="attack_stopped" from="HitBox" to="." method="_on_hit_box_attack_stopped"]
+[connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
+[connection signal="die" from="HealthTracker" to="." method="_on_health_tracker_die"]
+[connection signal="hitpoints_changed" from="HealthTracker" to="." method="_on_health_tracker_hitpoints_changed"]
