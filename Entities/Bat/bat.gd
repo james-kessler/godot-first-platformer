@@ -1,7 +1,6 @@
 extends CharacterBody2D
 
 const SPEED = 100.0
-var chased_player = null
 
 var spawn_point: Vector2
 @onready var state_machine: AnimationNodeStateMachinePlayback  = $AnimationTree["parameters/playback"]
@@ -16,23 +15,13 @@ func _physics_process(_delta: float) -> void:
 	if (current_anim == "death"):
 		return
 	
-	if chased_player:
+	if $ChaseArea.is_chasing():
 		if current_anim != "attack" and !attack_cooldown:
-			velocity = position.direction_to(chased_player.position) * SPEED
+			velocity = position.direction_to($ChaseArea.chased_entity.position) * SPEED
 	else:
 		velocity = position.direction_to(spawn_point) * SPEED
 
 	move_and_slide()
-
-func _on_chase_radius_body_entered(body: Node2D) -> void:
-	if body == %Player:
-		print_debug("chasing player")
-		chased_player = body
-
-func _on_chase_radius_body_exited(body: Node2D) -> void:
-	if body == %Player:
-		print_debug("player ran away")
-		chased_player = null
 
 func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
 	if anim_name != "attack":
