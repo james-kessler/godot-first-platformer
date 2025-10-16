@@ -13,6 +13,7 @@ tile_set = ExtResource("1_575r3")
 
 [node name="Player" parent="." instance=ExtResource("2_bgabs")]
 unique_name_in_owner = true
+z_index = 1
 position = Vector2(94, 498)
 
 [node name="Camera2D2" type="Camera2D" parent="Player"]
@@ -31,8 +32,8 @@ position = Vector2(577, 324)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("3_ms8d0")
 
-[node name="Enemy" parent="." instance=ExtResource("4_eumv0")]
-position = Vector2(2056, 495)
+[node name="Bat" parent="." instance=ExtResource("4_eumv0")]
+position = Vector2(2048, 525)
 
-[node name="Enemy2" parent="." instance=ExtResource("4_eumv0")]
-position = Vector2(954, 489)
+[node name="Bat2" parent="." instance=ExtResource("4_eumv0")]
+position = Vector2(947, 527)

@@ -3,45 +3,29 @@ extends Area2D
 
 @export var damage:= 10
 
-var target: Hurtbox = null
-
-signal attack_started
-signal attack_stopped
-
 func _init() -> void:
 	collision_layer = 0
 	collision_mask = 2
 
-func _ready() -> void:
-	if self.owner.is_in_group("enemies"):
-		connect("area_entered", self._on_area_entered)
-		connect("area_exited", self._on_area_exited)
-
-func _on_area_entered(hurtbox: Hurtbox) -> void:
-	print_debug("Hurtbox Owner:", hurtbox.owner.get_groups())
-	if hurtbox == null or hurtbox.owner.is_in_group("enemies"):
-		return
-
-	self.trigger_attack(hurtbox)
-	
-func _on_area_exited(hurtbox: Hurtbox) -> void:
-	if hurtbox == null or hurtbox.owner.is_in_group("enemies"):
-		return
-
-	self.cancel_attack()
-	
-func trigger_attack(hurtbox: Hurtbox) -> void:
-	if !hurtbox.accepts_damage():
-		return
-	target = hurtbox
-	attack_started.emit()
-
-func cancel_attack() -> void:
-	target = null
-	attack_stopped.emit()
-
 func apply_damage() -> void:
-	if target == null:
-		return
-	
-	target.apply_damage(damage)
+	var overlapping_areas = get_overlapping_areas()
+	for area in overlapping_areas:
+		if area is Hurtbox:
+			if is_hostile(area):
+				area.apply_damage(damage)
+
+func has_hostile_hurtboxes_in_area() -> bool:
+	var overlapping_areas = get_overlapping_areas()
+	for area in overlapping_areas:
+		if area is Hurtbox:
+			if is_hostile(area):
+				return true
+	return false
+
+func is_hostile(hurtbox: Hurtbox):
+	var hitbox_groups = self.owner.get_groups()
+	var hurtbox_groups = hurtbox.owner.get_groups()
+	return ArrayUtils.intersect_arrays(hitbox_groups, hurtbox_groups).is_empty()
+
+func disable():
+	collision_mask = 0

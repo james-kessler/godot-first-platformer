@@ -7,7 +7,7 @@ signal hitpoints_changed(before: int, after: int)
 @export var max_hitpoints = 30
 var hitpoints = null
 
-func _init() -> void:
+func _ready() -> void:
 	hitpoints = max_hitpoints
 
 func apply_damage(damage: int) -> void:
@@ -15,9 +15,9 @@ func apply_damage(damage: int) -> void:
 		return
 
 	var original_hitpoints = hitpoints
-	hitpoints = clamp(hitpoints - damage, 0, hitpoints)
+	hitpoints = clamp(original_hitpoints - damage, 0, original_hitpoints - damage)
 
-	print("Damage: ", damage)
+	print("Damage: ", damage, owner.name)
 
 	hitpoints_changed.emit(original_hitpoints, hitpoints)
 	

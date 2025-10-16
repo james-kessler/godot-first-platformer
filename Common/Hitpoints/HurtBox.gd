@@ -11,6 +11,9 @@ func _init() -> void:
 	collision_layer = 2
 	collision_mask = 0
 
+func disable():
+	collision_layer = 0
+
 func _get_configuration_warnings() -> PackedStringArray:
 	if health_tracker == null:
 		return ["This node must have a health_tracker configured."]

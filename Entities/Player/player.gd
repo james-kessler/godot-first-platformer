@@ -7,9 +7,6 @@ var attacks = ["attack1", "attack2"]
 
 @onready var state_machine: AnimationNodeStateMachinePlayback = $AnimationTree["parameters/playback"]
 
-func _ready() -> void:
-	add_to_group("allies")
-
 func _physics_process(delta: float) -> void:
 	var current_anim = state_machine.get_current_node()
 	if current_anim in ["hurt", "die"]:
@@ -33,9 +30,11 @@ func _physics_process(delta: float) -> void:
 		velocity.x = movement * SPEED
 
 		$Sprite2D.flip_h = velocity.x < 0
+		$Hitbox.scale.x = -1 if velocity.x < 0 else 1
 	else:
 		velocity.x = 0
-		state_machine.travel("idle")
+		if current_anim == "run":
+			state_machine.travel("idle")
 
 	move_and_slide()
 
@@ -51,3 +50,7 @@ func _on_health_tracker_hitpoints_changed(_before: int, after: int) -> void:
 	state_machine.travel("hurt")
 	
 	print("Player Hitpoints: ", after)
+
+
+func _on_animation_tree_animation_started(anim_name: StringName) -> void:
+	print("Animation Started: ", anim_name)
