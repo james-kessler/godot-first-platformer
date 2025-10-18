@@ -4,13 +4,9 @@ extends State
 @onready var animation_tree: AnimationTree = $"../../AnimationTree"
 
 func enter():
-	animation_state_machine.travel("attack1")
+	animation_state_machine.travel("attack")
+	
 	# Wait for animation to finish before going idle
 	await animation_tree.animation_finished
 	
-	if owner_ref.velocity.y > 0:
-		state_machine.change_state("FallState")
-	elif owner_ref.velocity.y < 0:
-		state_machine.change_state("JumpState")
-	else:
-		state_machine.change_state("IdleState")
+	state_machine.change_state("CooldownState")

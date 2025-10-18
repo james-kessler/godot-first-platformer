@@ -4,8 +4,10 @@ extends Node
 var current_state: State
 var states = {}
 var owner_ref
+var running = false
 
-func init(owner):
+func init(owner: CharacterBody2D):
+	running = true
 	owner_ref = owner
 	# Load all child state nodes
 	for child in get_children():
@@ -16,12 +18,20 @@ func init(owner):
 	change_state("IdleState")
 
 func change_state(new_name: String):
+	if !running:
+		return
+
 	if current_state:
 		current_state.exit()
 	current_state = states.get(new_name)
-	current_state.enter()
+	if (current_state):
+		print("New State: ", current_state)
+		current_state.enter()
 
 func physics_update(delta):
 	if current_state:
 		current_state.handle_input()
 		current_state.physics_update(delta)
+
+func stop():
+	running = false

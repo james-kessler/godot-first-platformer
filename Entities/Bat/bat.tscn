@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://cvr2tithgu0ge"]
+[gd_scene load_steps=33 format=3 uid="uid://cvr2tithgu0ge"]
 
 [ext_resource type="Script" uid="uid://c8nmw1jio27ho" path="res://Entities/Bat/bat.gd" id="1_md0e3"]
 [ext_resource type="Texture2D" uid="uid://catry0kst2q6b" path="res://assets/Bat_Sprite_Sheet.png" id="2_md0e3"]
@@ -8,6 +8,12 @@
 [ext_resource type="Script" uid="uid://chhfim3e62kbb" path="res://Common/Timers/CooldownTimer.gd" id="5_l1f3n"]
 [ext_resource type="Script" uid="uid://bds042apw8aqt" path="res://Common/Hitpoints/HurtBox.gd" id="5_xwavj"]
 [ext_resource type="Script" uid="uid://bxe5a6rpcmqc1" path="res://Common/AI/AttackTrigger.gd" id="8_g8dmv"]
+[ext_resource type="Script" uid="uid://docoslfsmgie7" path="res://Common/State/StateMachine.gd" id="9_k07ai"]
+[ext_resource type="Script" uid="uid://dgtd1ywgr8o1h" path="res://Entities/Bat/idle_state.gd" id="10_kdwtr"]
+[ext_resource type="Script" uid="uid://oj24yxbufthv" path="res://Entities/Bat/attack_state.gd" id="11_fekb6"]
+[ext_resource type="Script" uid="uid://dmie1g6o1g7gr" path="res://Entities/Bat/dead_state.gd" id="11_kdwtr"]
+[ext_resource type="Script" uid="uid://c1h5a1m5ky7rk" path="res://Entities/Bat/cooldown_state.gd" id="12_to6qe"]
+[ext_resource type="Script" uid="uid://c2w5qelxohvid" path="res://Entities/Bat/chase_state.gd" id="13_oeigv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_md0e3"]
 size = Vector2(984, 164)
@@ -69,20 +75,6 @@ tracks/1/keys = {
 "values": [{
 "args": [],
 "method": &"apply_damage"
-}]
-}
-tracks/2/type = "method"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("AttackCooldownTimer")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(1),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"start_cooldown"
 }]
 }
 
@@ -207,6 +199,7 @@ libraries = {
 position = Vector2(1.4210855e-14, 2.2737368e-13)
 scale = Vector2(5, 5)
 texture = ExtResource("2_md0e3")
+flip_h = true
 hframes = 5
 vframes = 3
 
@@ -247,11 +240,30 @@ script = ExtResource("8_g8dmv")
 hit_box = NodePath("../HitBox")
 metadata/_custom_type_script = "uid://bxe5a6rpcmqc1"
 
-[node name="RayCast2D" type="RayCast2D" parent="."]
+[node name="DownRaycast2D" type="RayCast2D" parent="."]
 target_position = Vector2(0, 54)
 
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("9_k07ai")
+metadata/_custom_type_script = "uid://docoslfsmgie7"
+
+[node name="IdleState" type="Node" parent="StateMachine"]
+script = ExtResource("10_kdwtr")
+
+[node name="AttackState" type="Node" parent="StateMachine"]
+script = ExtResource("11_fekb6")
+
+[node name="CooldownState" type="Node" parent="StateMachine"]
+script = ExtResource("12_to6qe")
+
+[node name="ChaseState" type="Node" parent="StateMachine"]
+script = ExtResource("13_oeigv")
+
+[node name="DeadState" type="Node" parent="StateMachine"]
+script = ExtResource("11_kdwtr")
+
 [connection signal="animation_finished" from="AnimationTree" to="." method="_on_animation_tree_animation_finished"]
-[connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_attack_timer_timeout"]
+[connection signal="timeout" from="AttackCooldownTimer" to="StateMachine/CooldownState" method="_on_attack_cooldown_timer_timeout"]
 [connection signal="die" from="HealthTracker" to="." method="_on_health_tracker_die"]
 [connection signal="hitpoints_changed" from="HealthTracker" to="." method="_on_health_tracker_hitpoints_changed"]
 [connection signal="attack_started" from="AttackTrigger" to="." method="_on_attack_trigger_attack_started"]

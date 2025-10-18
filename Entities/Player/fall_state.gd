@@ -1,7 +1,9 @@
 extends MovementState
 
+@onready var animation_state_machine: AnimationNodeStateMachinePlayback = $"../../AnimationTree"["parameters/playback"]
+
 func enter():
-	owner_ref.animation_state_machine.travel("fall")
+	animation_state_machine.travel("fall")
 
 func physics_update(delta):
 	super.physics_update(delta)

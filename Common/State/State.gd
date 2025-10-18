@@ -2,7 +2,7 @@
 class_name State
 extends Node
 
-var state_machine
+var state_machine: StateMachine
 var owner_ref: CharacterBody2D
 
 func enter() -> void:
@@ -13,7 +13,8 @@ func handle_input() -> void:
 		state_machine.change_state("JumpState")
 
 func physics_update(delta: float) -> void:
-	owner_ref.velocity.y += owner_ref.gravity * delta
+	if "gravity" in owner_ref:
+		owner_ref.velocity.y += owner_ref.gravity * delta
 
 func exit() -> void:
 	pass
