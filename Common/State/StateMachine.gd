@@ -1,3 +1,4 @@
+class_name StateMachine
 extends Node
 
 var current_state: State
@@ -24,6 +25,3 @@ func physics_update(delta):
 	if current_state:
 		current_state.handle_input()
 		current_state.physics_update(delta)
-	
-	# always apply gravity
-	#owner_ref.velocity.y += owner_ref.gravity * delta
