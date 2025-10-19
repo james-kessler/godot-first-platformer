@@ -31,6 +31,7 @@ func change_state(new_name: String):
 func physics_update(delta):
 	if current_state:
 		current_state.handle_input()
+	if current_state:
 		current_state.physics_update(delta)
 
 func stop():

@@ -221,7 +221,6 @@ metadata/_custom_type_script = "uid://chhfim3e62kbb"
 
 [node name="HealthTracker" type="Node" parent="."]
 script = ExtResource("4_c4w8v")
-max_hitpoints = 5
 metadata/_custom_type_script = "uid://bola3vgr3ssjs"
 
 [node name="Hurtbox" type="Area2D" parent="." node_paths=PackedStringArray("health_tracker")]

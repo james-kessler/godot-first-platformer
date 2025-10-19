@@ -4,7 +4,12 @@ extends Node
 signal die
 signal hitpoints_changed(before: int, after: int)
 
-@export var max_hitpoints = 30
+var max_hitpoints:
+	set(value):
+		max_hitpoints = value
+		# Additional logic when health is set
+		hitpoints = max_hitpoints
+
 var hitpoints = null
 
 func _ready() -> void:

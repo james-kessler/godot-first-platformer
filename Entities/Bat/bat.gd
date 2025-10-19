@@ -1,8 +1,8 @@
 extends CharacterBody2D
 
-@export var speed: int = 100.0
-@export var acceleration: int = 20
-@export var gravity: int = 0
+var speed: int
+var acceleration: int
+var gravity: int = 0
 
 var spawn_point: Vector2
 
@@ -11,11 +11,20 @@ var spawn_point: Vector2
 @onready var anim_tree: AnimationTree = $AnimationTree
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var down_raycast_2d: RayCast2D = $DownRaycast2D
+@onready var hit_box: Hitbox = $HitBox
+@onready var health_tracker: HealthTracker = $HealthTracker
 
 func _ready() -> void:
 	spawn_point = global_position
 	anim_tree.active = true
-	# Give the state machine a reference to the player
+	
+	speed = GameConfig.get_value("Bat", "speed", 100)
+	acceleration = GameConfig.get_value("Bat", "acceleration", 20)
+	
+	hit_box.damage = GameConfig.get_value("Bat", "damage", 10)
+	health_tracker.max_hitpoints = GameConfig.get_value("Bat", "hitpoints", 10)
+	print("Bat Hitpoints: ", health_tracker.max_hitpoints)
+
 	state_machine.init(self)
 
 func _physics_process(delta: float) -> void:

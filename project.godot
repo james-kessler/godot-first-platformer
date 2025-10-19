@@ -18,6 +18,11 @@ config/icon="res://icon.svg"
 [autoload]
 
 ArrayUtils="*res://Common/Util/ArrayUtils.gd"
+GameConfig="*res://Common/Util/GameConfig.gd"
+
+[display]
+
+window/stretch/mode="canvas_items"
 
 [global_group]
 
