@@ -15,9 +15,4 @@ func physics_update(delta):
 		return
 
 	var direction = owner_ref.position.direction_to(owner_ref.spawn_point)
-	owner_ref.velocity.x = direction.x * owner_ref.speed
-	if direction.x != 0:
-		sprite_2d.flip_h = owner.velocity.x < 0
-	else:
-		# returned to spawn
-		sprite_2d.flip_h = true
+	owner_ref.velocity.x = move_toward(owner_ref.velocity.x, owner_ref.speed * direction.x, owner_ref.acceleration)

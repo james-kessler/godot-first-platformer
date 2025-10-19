@@ -14,7 +14,7 @@ tile_set = ExtResource("1_575r3")
 [node name="Player" parent="." instance=ExtResource("2_bgabs")]
 unique_name_in_owner = true
 z_index = 1
-position = Vector2(94, 498)
+position = Vector2(91, 417)
 
 [node name="Camera2D2" type="Camera2D" parent="Player"]
 limit_left = 0

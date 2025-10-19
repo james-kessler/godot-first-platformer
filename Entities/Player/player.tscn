@@ -329,7 +329,7 @@ collision_mask = 3
 script = ExtResource("1_ur7pv")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-7, 26)
+position = Vector2(0, 105)
 shape = SubResource("CapsuleShape2D_ur7pv")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -340,6 +340,8 @@ libraries = {
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(5, 5)
 texture = ExtResource("2_g2els")
+centered = false
+offset = Vector2(-16, 0)
 hframes = 13
 vframes = 8
 
@@ -355,7 +357,7 @@ health_tracker = NodePath("../HealthTracker")
 metadata/_custom_type_script = "uid://bds042apw8aqt"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
-position = Vector2(-8, 26)
+position = Vector2(0, 109)
 shape = SubResource("CapsuleShape2D_dqkch")
 
 [node name="HealthTracker" type="Node" parent="."]
@@ -367,7 +369,7 @@ script = ExtResource("5_5c2io")
 metadata/_custom_type_script = "uid://derfbmyymxqsn"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2(65, 25)
+position = Vector2(70, 100)
 shape = SubResource("RectangleShape2D_5c2io")
 
 [node name="StateMachine" type="Node" parent="."]

@@ -4,7 +4,8 @@ extends State
 
 # Universal input handling
 func handle_input():
-	super.handle_input()
+	if Input.is_action_just_pressed("jump") and owner_ref.is_on_floor():
+		state_machine.change_state("JumpState")
 	if Input.is_action_just_pressed("attack"):
 		state_machine.change_state("AttackState")
 		return
@@ -18,3 +19,4 @@ func physics_update(delta):
 	
 	if dir != 0:
 		owner_ref.sprite_2d.flip_h = owner.velocity.x < 0
+		owner_ref.hitbox.scale.x = sign(owner.velocity.x)

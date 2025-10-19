@@ -9,8 +9,7 @@ func enter() -> void:
 	pass
 
 func handle_input() -> void:
-	if Input.is_action_just_pressed("jump") and owner_ref.is_on_floor():
-		state_machine.change_state("JumpState")
+	pass
 
 func physics_update(delta: float) -> void:
 	if "gravity" in owner_ref:

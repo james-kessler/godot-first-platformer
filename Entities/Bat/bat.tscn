@@ -204,7 +204,7 @@ states/idle/position = Vector2(455, 169)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_8qclf"), "idle", "death", SubResource("AnimationNodeStateMachineTransition_w8i8w"), "idle", "attack", SubResource("AnimationNodeStateMachineTransition_4ra3w"), "attack", "idle", SubResource("AnimationNodeStateMachineTransition_5uy6h"), "attack", "death", SubResource("AnimationNodeStateMachineTransition_w36fc")]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4ra3w"]
-size = Vector2(101, 98)
+size = Vector2(99.5, 95)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3hta0"]
 radius = 44.0
@@ -231,6 +231,7 @@ shape = SubResource("RectangleShape2D_md0e3")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -20)
 shape = SubResource("CapsuleShape2D_md0e3")
+one_way_collision_margin = 0.0
 debug_color = Color(0.8847672, 0.00031458258, 0.8111864, 0.41960785)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -239,10 +240,10 @@ libraries = {
 }
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(1.4210855e-14, 2.2737368e-13)
+position = Vector2(-38.999996, -57.999996)
 scale = Vector2(5, 5)
 texture = ExtResource("2_md0e3")
-flip_h = true
+centered = false
 hframes = 5
 vframes = 3
 
@@ -255,7 +256,7 @@ script = ExtResource("3_4ra3w")
 metadata/_custom_type_script = "uid://derfbmyymxqsn"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
-position = Vector2(-57.5, 24)
+position = Vector2(50, 26.5)
 shape = SubResource("RectangleShape2D_4ra3w")
 
 [node name="AttackCooldownTimer" type="Timer" parent="."]
@@ -307,9 +308,11 @@ script = ExtResource("11_kdwtr")
 
 [node name="AttackSprite" type="Sprite2D" parent="."]
 z_index = 1
-position = Vector2(-61, 24)
 scale = Vector2(6, 6)
 texture = ExtResource("15_to6qe")
+centered = false
+offset = Vector2(0, -4)
+flip_h = true
 hframes = 2
 frame = 1
 
