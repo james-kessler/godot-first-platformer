@@ -58,3 +58,7 @@ jump={
 
 2d_render/layer_1="World Layer"
 2d_render/layer_2="Hit and Hurt Boxes"
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0

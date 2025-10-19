@@ -1,7 +1,7 @@
 [gd_scene load_steps=54 format=3 uid="uid://cyiic57dbmpqu"]
 
 [ext_resource type="Script" uid="uid://ctm1xfftno1nm" path="res://Entities/Player/player.gd" id="1_ur7pv"]
-[ext_resource type="Texture2D" uid="uid://cgmqiixh2mt8v" path="res://assets/adventurer_sprite_sheet_v1.1.png" id="2_g2els"]
+[ext_resource type="Texture2D" uid="uid://cgmqiixh2mt8v" path="res://Entities/Player/adventurer_sprite_sheet_v1.1.png" id="2_g2els"]
 [ext_resource type="Script" uid="uid://bds042apw8aqt" path="res://Common/Hitpoints/HurtBox.gd" id="3_5c2io"]
 [ext_resource type="Script" uid="uid://bola3vgr3ssjs" path="res://Common/Hitpoints/HealthTracker.gd" id="4_dqkch"]
 [ext_resource type="Script" uid="uid://derfbmyymxqsn" path="res://Common/Hitpoints/HitBox.gd" id="5_5c2io"]

@@ -20,10 +20,11 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	state_machine.physics_update(delta)
-	
+
 	move_and_slide()
 
 func _on_health_tracker_die() -> void:
+	velocity.x = 0
 	state_machine.change_state("DeadState")
 
 func _on_health_tracker_hitpoints_changed(before: int, after: int) -> void:

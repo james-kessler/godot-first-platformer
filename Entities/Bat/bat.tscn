@@ -1,7 +1,7 @@
 [gd_scene load_steps=33 format=3 uid="uid://cvr2tithgu0ge"]
 
 [ext_resource type="Script" uid="uid://c8nmw1jio27ho" path="res://Entities/Bat/bat.gd" id="1_md0e3"]
-[ext_resource type="Texture2D" uid="uid://catry0kst2q6b" path="res://assets/Bat_Sprite_Sheet.png" id="2_md0e3"]
+[ext_resource type="Texture2D" uid="uid://catry0kst2q6b" path="res://Entities/Bat/Bat_Sprite_Sheet.png" id="2_md0e3"]
 [ext_resource type="Script" uid="uid://5tnkjsec8iip" path="res://Common/AI/ChaseArea.gd" id="2_nlngm"]
 [ext_resource type="Script" uid="uid://derfbmyymxqsn" path="res://Common/Hitpoints/HitBox.gd" id="3_4ra3w"]
 [ext_resource type="Script" uid="uid://bola3vgr3ssjs" path="res://Common/Hitpoints/HealthTracker.gd" id="4_c4w8v"]
