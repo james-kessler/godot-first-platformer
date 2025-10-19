@@ -7,6 +7,8 @@ func enter():
 	attack_cooldown_timer.start()
 
 func physics_update(delta: float) -> void:
+	super.physics_update(delta)
+	
 	if attack_cooldown_timer.time_left > 0:
 		return
 

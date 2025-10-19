@@ -11,7 +11,8 @@ func physics_update(delta):
 
 	if chase_area.is_chasing():
 		var direction = owner_ref.position.direction_to(chase_area.chased_entity.position)
-		owner_ref.velocity = direction * owner_ref.speed
+		
+		owner_ref.velocity.x = move_toward(owner_ref.velocity.x, owner_ref.speed * direction.x, owner_ref.acceleration)
 		if direction.x != 0:
 			sprite_2d.flip_h = owner.velocity.x < 0
 	else:
