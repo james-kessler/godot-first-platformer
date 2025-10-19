@@ -4,6 +4,7 @@ extends State
 @onready var animation_tree: AnimationTree = $"../../AnimationTree"
 
 func enter():
+	owner_ref.velocity.x = 0
 	animation_state_machine.travel("attack1")
 	# Wait for animation to finish before going idle
 	await animation_tree.animation_finished

@@ -1,4 +1,4 @@
-extends State
+extends FlyingState
 
 @onready var animation_state_machine: AnimationNodeStateMachinePlayback = $"../../AnimationTree"["parameters/playback"]
 @onready var animation_tree: AnimationTree = $"../../AnimationTree"
@@ -10,3 +10,5 @@ func enter():
 	await animation_tree.animation_finished
 	
 	state_machine.change_state("CooldownState")
+	
+	owner_ref.velocity.x = 0

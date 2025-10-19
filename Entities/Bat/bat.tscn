@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://cvr2tithgu0ge"]
+[gd_scene load_steps=35 format=3 uid="uid://cvr2tithgu0ge"]
 
 [ext_resource type="Script" uid="uid://c8nmw1jio27ho" path="res://Entities/Bat/bat.gd" id="1_md0e3"]
 [ext_resource type="Texture2D" uid="uid://catry0kst2q6b" path="res://Entities/Bat/Bat_Sprite_Sheet.png" id="2_md0e3"]
@@ -14,6 +14,8 @@
 [ext_resource type="Script" uid="uid://dmie1g6o1g7gr" path="res://Entities/Bat/dead_state.gd" id="11_kdwtr"]
 [ext_resource type="Script" uid="uid://c1h5a1m5ky7rk" path="res://Entities/Bat/cooldown_state.gd" id="12_to6qe"]
 [ext_resource type="Script" uid="uid://c2w5qelxohvid" path="res://Entities/Bat/chase_state.gd" id="13_oeigv"]
+[ext_resource type="Texture2D" uid="uid://bselxyqhvgm55" path="res://Entities/Bat/attack.png" id="15_to6qe"]
+[ext_resource type="AudioStream" uid="uid://dryce7f4bee20" path="res://Entities/Bat/magic-basic-game-sound-effect-380301.mp3" id="16_oeigv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_md0e3"]
 size = Vector2(984, 164)
@@ -77,6 +79,45 @@ tracks/1/keys = {
 "method": &"apply_damage"
 }]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AttackSprite:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.4, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("AttackSprite:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.4, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+tracks/4/type = "audio"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("AudioStreamPlayer2D")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("16_oeigv")
+}],
+"times": PackedFloat32Array(0.46666667)
+}
+tracks/4/use_blend = true
 
 [sub_resource type="Animation" id="Animation_c4w8v"]
 resource_name = "death"
@@ -163,7 +204,7 @@ states/idle/position = Vector2(455, 169)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_8qclf"), "idle", "death", SubResource("AnimationNodeStateMachineTransition_w8i8w"), "idle", "attack", SubResource("AnimationNodeStateMachineTransition_4ra3w"), "attack", "idle", SubResource("AnimationNodeStateMachineTransition_5uy6h"), "attack", "death", SubResource("AnimationNodeStateMachineTransition_w36fc")]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4ra3w"]
-size = Vector2(64, 164)
+size = Vector2(101, 98)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3hta0"]
 radius = 44.0
@@ -175,6 +216,7 @@ collision_mask = 3
 script = ExtResource("1_md0e3")
 
 [node name="ChaseArea" type="Area2D" parent="." node_paths=PackedStringArray("health_tracker")]
+visible = false
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("2_nlngm")
@@ -182,6 +224,7 @@ health_tracker = NodePath("../HealthTracker")
 metadata/_custom_type_script = "uid://5tnkjsec8iip"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ChaseArea"]
+visible = false
 position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_md0e3")
 
@@ -212,7 +255,7 @@ script = ExtResource("3_4ra3w")
 metadata/_custom_type_script = "uid://derfbmyymxqsn"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
-position = Vector2(-39, 1)
+position = Vector2(-57.5, 24)
 shape = SubResource("RectangleShape2D_4ra3w")
 
 [node name="AttackCooldownTimer" type="Timer" parent="."]
@@ -224,6 +267,7 @@ script = ExtResource("4_c4w8v")
 metadata/_custom_type_script = "uid://bola3vgr3ssjs"
 
 [node name="Hurtbox" type="Area2D" parent="." node_paths=PackedStringArray("health_tracker")]
+visible = false
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("5_xwavj")
@@ -260,6 +304,16 @@ script = ExtResource("13_oeigv")
 
 [node name="DeadState" type="Node" parent="StateMachine"]
 script = ExtResource("11_kdwtr")
+
+[node name="AttackSprite" type="Sprite2D" parent="."]
+z_index = 1
+position = Vector2(-61, 24)
+scale = Vector2(6, 6)
+texture = ExtResource("15_to6qe")
+hframes = 2
+frame = 1
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 
 [connection signal="animation_finished" from="AnimationTree" to="." method="_on_animation_tree_animation_finished"]
 [connection signal="timeout" from="AttackCooldownTimer" to="StateMachine/CooldownState" method="_on_attack_cooldown_timer_timeout"]

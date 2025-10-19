@@ -1,4 +1,4 @@
-extends State
+extends FlyingState
 
 @onready var attack_cooldown_timer: CooldownTimer = $"../../AttackCooldownTimer"
 @onready var hit_box: Hitbox = $"../../HitBox"
